@@ -929,13 +929,6 @@ const JULIA_RUSHED = [
   "Julia legt kurz den Kopf schief, wirkt fast gerührt – dann reißt sie sich los. „Nein, nein, keine Zeit für sowas! Kollegiale Grüße!“",
 ];
 
-const JULIA_RELENT = [
-  "Julia seufzt enttäuscht. „...dass ausgerechnet SO VIEL Schmeichelei am Ende funktioniert. Na gut, hier ist dein Wachs. Aber jetzt beeil dich, wir sind spät dran! Kollegiale Grüße!“",
-  "Julia rollt mit den Augen, drückt dir aber trotzdem das Wachs in die Hand. „Na gut, DU hast gewonnen. Aber nur, weil ich's eilig hab. Kollegiale Grüße!“",
-  "Julia schnaubt amüsiert. „Okay, okay, genug geschleimt – hier, nimm das Wachs, bevor ich's mir noch anders überlege. Kollegiale Grüße!“",
-  "Julia grinst breit und drückt dir das Wachs in die Pfote. „Du bist echt hartnäckig, das muss man dir lassen. Kollegiale Grüße!“",
-];
-
 const FABIAN_ITEM_REACTIONS = {
   feder: "Fabian nimmt die Feder entgegen. „Perfekt, jetzt kann ich wenigstens wieder schreiben!“",
   oel: "Fabian blinzelt. „Ich hatte eigentlich auf Tinte gehofft... aber gut, zur Not tut's auch Öl.“ Er hält kurz inne. „Sag mal – funktionieren Tintenkiller eigentlich auch bei Schweröl?“",
@@ -1190,6 +1183,7 @@ const DIALOGUES = {
             effect: `julia_${c.id}`,
             next: remaining.length === 1 ? "relent" : "rushed",
           })),
+          { label: "„Kannst du mir einfach das Wachs geben?“", next: "termin" },
           { label: "„Dann ein andermal.“", end: true },
         ],
       };
@@ -1198,10 +1192,14 @@ const DIALOGUES = {
       text: pick(JULIA_RUSHED),
       choices: [{ label: "(nachsehen)", next: "start" }],
     }),
-    relent: () => ({
-      text: pick(JULIA_RELENT),
+    relent: {
+      text: "Julia seufzt enttäuscht. „...dass ausgerechnet SO VIEL Schmeichelei am Ende funktioniert. Na gut, hier ist dein Wachs. Aber jetzt beeil dich, wir sind spät dran! Kollegiale Grüße!“",
       choices: [{ label: "Wachs annehmen", effect: "get_wachs", next: "start" }],
-    }),
+    },
+    termin: {
+      text: "Julia tippt nachdenklich auf ihrem unsichtbaren Terminplan herum. „Puh, so direkt? Da müsste ich schauen... in zwei, drei Wochen hätte ich mal einen Slot frei, das rauszusuchen. Kollegiale Grüße!“",
+      choices: [{ label: "(...das hilft mir jetzt nicht wirklich.)", next: "start" }],
+    },
   },
 
   anna: {
