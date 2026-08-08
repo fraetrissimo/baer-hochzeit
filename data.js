@@ -1209,10 +1209,13 @@ const DIALOGUES = {
       const dest = pickDifferent(JULIA_DESTINATIONS, st.juliaLastDestination);
       st.juliaLastDestination = dest;
       const remaining = JULIA_COMPLIMENTS.filter((c) => !st.juliaUsed.includes(c.id));
+      const termin = !st.sawTopic("julia:termin")
+        ? [{ label: "„Fabian braucht Wachs für seine Karten – hast du das als Biene?“", effect: "seen:julia:termin", next: "termin" }]
+        : [];
       return {
         text: pick(JULIA_OPENERS)(dest),
         choices: [
-          { label: "„Kannst du mir einfach das Wachs geben?“", next: "termin" },
+          ...termin,
           ...remaining.map((c) => ({
             label: c.text,
             effect: `julia_${c.id}`,
