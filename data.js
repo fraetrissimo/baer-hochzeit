@@ -1081,13 +1081,17 @@ const DIALOGUES = {
 
   sonja: {
     start: (st) => {
-      const topics = [
+      const topicDefs = [
         { key: "sonja:theorie", label: "„Worüber denkst du nach?“", next: "theorie" },
         { key: "sonja:garten", label: "„Was pflanzt du denn?“", next: "garten" },
         { key: "sonja:hilfe", label: "„Kannst du mir helfen?“", next: "hilfe" },
-      ].filter((t) => !st.sawTopic(t.key));
+      ];
+      const alreadyGreeted = topicDefs.some((t) => st.sawTopic(t.key));
+      const topics = topicDefs.filter((t) => !st.sawTopic(t.key));
       return {
-        text: "Sonja sitzt inmitten ihres Gartens, ein Notizbuch auf den Knien, und beobachtet konzentriert eine Pflanze. „Ah, Besuch! Setz dich ruhig, wenn du magst. Ich werte gerade eine Beobachtungsreihe aus.“",
+        text: alreadyGreeted
+          ? "Sonja blickt kurz von ihrem Notizbuch auf. „Noch etwas, bevor du weiterziehst?“"
+          : "Sonja sitzt inmitten ihres Gartens, ein Notizbuch auf den Knien, und beobachtet konzentriert eine Pflanze. „Ah, Besuch! Setz dich ruhig, wenn du magst. Ich werte gerade eine Beobachtungsreihe aus.“",
         choices: [
           ...topics.map((t) => ({ label: t.label, effect: `seen:${t.key}`, next: t.next })),
           { label: "(sie in Ruhe lassen)", end: true },
