@@ -46,8 +46,11 @@ const INTRO_SLIDES = [
     bg: () => BG.bau,
     text:
       "Leider hat Fabian noch nicht eine EINZIGE Einladung verschickt. Genau genommen sind sie nicht mal fertig: " +
-      "Tinte verschüttet, Feder verloren, die Gästeliste aus dem Fenster geweht. „Wer hilft mir bloß?!“, ruft er verzweifelt in den Wald.\n\n" +
-      "Geh zu Fabian in seinem Bau und rede mit ihm – er sagt dir genau, was er braucht!",
+      "Tinte verschüttet, Feder verloren, die Gästeliste aus dem Fenster geweht. „Wer hilft mir bloß?!“, ruft er verzweifelt in den Wald.",
+  },
+  {
+    bg: () => BG.bau,
+    text: "Geh zu Fabian in seinem Bau und rede mit ihm – er sagt dir genau, was er braucht!",
   },
 ];
 

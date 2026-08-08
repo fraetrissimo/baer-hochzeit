@@ -1008,13 +1008,18 @@ const DIALOGUES = {
   },
 
   janos: {
-    start: {
-      text: "Janos hängt reglos unter dem Riesenpilz, ein zerknittertes Blatt Papier in der Pfote. „Ich wollte eigentlich nur ein Bett bauen...“",
-      choices: [
-        { label: "„Und? Läuft's?“", next: "explain1" },
-        { label: "„Kannst du mir helfen?“", next: "hilfe" },
-        { label: "(ihn weiterhängen lassen)", end: true },
-      ],
+    start: (st) => {
+      const topics = [
+        { key: "janos:explain", label: "„Und? Läuft's?“", next: "explain1" },
+        { key: "janos:hilfe", label: "„Kannst du mir helfen?“", next: "hilfe" },
+      ].filter((t) => !st.sawTopic(t.key));
+      return {
+        text: "Janos hängt reglos unter dem Riesenpilz, ein zerknittertes Blatt Papier in der Pfote. „Ich wollte eigentlich nur ein Bett bauen...“",
+        choices: [
+          ...topics.map((t) => ({ label: t.label, effect: `seen:${t.key}`, next: t.next })),
+          { label: "(ihn weiterhängen lassen)", end: true },
+        ],
+      };
     },
     explain1: {
       text: "„Naja, beim Bett bauen hab ich gemerkt: mir fehlt Werkzeug.“ Er seufzt schwer. „Also brauch ich erstmal Werkzeug.“",
@@ -1113,18 +1118,18 @@ const DIALOGUES = {
 
   stephan: {
     start: (st) => {
-      if (st.has("metallschrott") || st.has("oel")) {
-        return {
-          text: "Stephan winkt entspannt vom Ufer. „Alles gut bei dir? Ich mache gleich noch Yoga.“",
-          choices: [{ label: "(weiter)", end: true }],
-        };
-      }
+      const gotItem = st.has("metallschrott") || st.has("oel");
+      const topics = [
+        { key: "stephan:oktober", label: "„Es ist Oktober.“", next: "oktober" },
+        !gotItem ? { key: "stephan:metallschrott_frage", label: "„Was ist das für ein Ding neben dir?“", next: "metallschrott_frage" } : null,
+        { key: "stephan:hilfe", label: "„Kannst du mir helfen?“", next: "hilfe" },
+      ].filter((t) => t && !st.sawTopic(t.key));
       return {
-        text: "Stephan liegt lässig am Seeufer und starrt in die Wolken. „Sag mal... ist der zehnte Monat jetzt September, Oktober oder November? Komm da grad durcheinander.“",
+        text: gotItem
+          ? "Stephan winkt entspannt vom Ufer. „Alles gut bei dir? Ich mache gleich noch Yoga.“"
+          : "Stephan liegt lässig am Seeufer und starrt in die Wolken. „Sag mal... ist der zehnte Monat jetzt September, Oktober oder November? Komm da grad durcheinander.“",
         choices: [
-          { label: "„Es ist Oktober.“", next: "oktober" },
-          { label: "„Was ist das für ein Ding neben dir?“", next: "metallschrott_frage" },
-          { label: "„Kannst du mir helfen?“", next: "hilfe" },
+          ...topics.map((t) => ({ label: t.label, effect: `seen:${t.key}`, next: t.next })),
           { label: "(weiterziehen)", end: true },
         ],
       };
