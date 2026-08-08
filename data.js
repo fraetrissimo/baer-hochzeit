@@ -1178,12 +1178,12 @@ const DIALOGUES = {
       return {
         text: pick(JULIA_OPENERS)(dest),
         choices: [
+          { label: "„Kannst du mir einfach das Wachs geben?“", next: "termin" },
           ...remaining.map((c) => ({
             label: c.text,
             effect: `julia_${c.id}`,
             next: remaining.length === 1 ? "relent" : "rushed",
           })),
-          { label: "„Kannst du mir einfach das Wachs geben?“", next: "termin" },
           { label: "„Dann ein andermal.“", end: true },
         ],
       };
