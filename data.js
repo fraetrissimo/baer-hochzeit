@@ -921,12 +921,16 @@ const JULIA_OPENERS = [
   (dest) => `Julia checkt hektisch ihre Fühler. „Wirklich ungünstiger Moment gerade, ${dest}“`,
 ];
 
+function juliaGruss(st) {
+  return st.playerName === "Jonas" ? "Kollegiale Grüße" : "Grüße";
+}
+
 const JULIA_RUSHED = [
-  "Julia errötet kurz, schüttelt dann aber den Kopf. „Süß von dir, aber die Kollegen warten nicht ewig! Kollegiale Grüße!“ Sie schwirrt davon.",
-  "Julia lacht kurz auf, wird aber sofort wieder hektisch. „Nett gemeint, aber ich hab wirklich keine Zeit! Kollegiale Grüße!“ Sie flattert weiter.",
-  "Julia wirkt kurz geschmeichelt, blickt dann aber auf die Uhr. „Schön gesagt – aber ich muss wirklich los! Kollegiale Grüße!“",
-  "Julia kichert und schüttelt energisch den Kopf. „Charmant, aber das bringt mich jetzt auch nicht weiter. Kollegiale Grüße!“ Sie surrt ungeduldig auf der Stelle.",
-  "Julia legt kurz den Kopf schief, wirkt fast gerührt – dann reißt sie sich los. „Nein, nein, keine Zeit für sowas! Kollegiale Grüße!“",
+  (st) => `Julia errötet kurz, schüttelt dann aber den Kopf. „Süß von dir, aber die Kollegen warten nicht ewig! ${juliaGruss(st)}!“ Sie schwirrt davon.`,
+  (st) => `Julia lacht kurz auf, wird aber sofort wieder hektisch. „Nett gemeint, aber ich hab wirklich keine Zeit! ${juliaGruss(st)}!“ Sie flattert weiter.`,
+  (st) => `Julia wirkt kurz geschmeichelt, blickt dann aber auf die Uhr. „Schön gesagt – aber ich muss wirklich los! ${juliaGruss(st)}!“`,
+  (st) => `Julia kichert und schüttelt energisch den Kopf. „Charmant, aber das bringt mich jetzt auch nicht weiter. ${juliaGruss(st)}!“ Sie surrt ungeduldig auf der Stelle.`,
+  (st) => `Julia legt kurz den Kopf schief, wirkt fast gerührt – dann reißt sie sich los. „Nein, nein, keine Zeit für sowas! ${juliaGruss(st)}!“`,
 ];
 
 const FABIAN_ITEM_REACTIONS = {
@@ -1232,7 +1236,7 @@ const DIALOGUES = {
   julia: {
     start: (st) => {
       if (st.has("wachs")) {
-        return { text: "„Keine Zeit, keine Zeit! Wir SIND praktisch schon im Urlaub. Kollegiale Grüße!“", choices: [{ label: "(gehen)", end: true }] };
+        return { text: `„Keine Zeit, keine Zeit! Wir SIND praktisch schon im Urlaub. ${juliaGruss(st)}!“`, choices: [{ label: "(gehen)", end: true }] };
       }
       const dest = pickDifferent(JULIA_DESTINATIONS, st.juliaLastDestination);
       st.juliaLastDestination = dest;
@@ -1253,18 +1257,18 @@ const DIALOGUES = {
         ],
       };
     },
-    rushed: () => ({
-      text: pick(JULIA_RUSHED),
+    rushed: (st) => ({
+      text: pick(JULIA_RUSHED)(st),
       choices: [{ label: "(nachsehen)", next: "start" }],
     }),
-    relent: {
-      text: "Julia seufzt enttäuscht. „...dass ausgerechnet SO VIEL Schmeichelei am Ende funktioniert. Na gut, hier ist dein Wachs. Aber jetzt beeil dich, wir sind spät dran! Kollegiale Grüße!“",
+    relent: (st) => ({
+      text: `Julia seufzt enttäuscht. „...dass ausgerechnet SO VIEL Schmeichelei am Ende funktioniert. Na gut, hier ist dein Wachs. Aber jetzt beeil dich, wir sind spät dran! ${juliaGruss(st)}!“`,
       choices: [{ label: "Wachs annehmen", effect: "get_wachs", next: "start" }],
-    },
-    termin: {
-      text: "Julia tippt nachdenklich auf ihrem unsichtbaren Terminplan herum. „Puh, so direkt? Da müsste ich schauen... in zwei, drei Wochen hätte ich mal einen Slot frei, das rauszusuchen. Kollegiale Grüße!“",
+    }),
+    termin: (st) => ({
+      text: `Julia tippt nachdenklich auf ihrem unsichtbaren Terminplan herum. „Puh, so direkt? Da müsste ich schauen... in zwei, drei Wochen hätte ich mal einen Slot frei, das rauszusuchen. ${juliaGruss(st)}!“`,
       choices: [{ label: "(...das hilft mir jetzt nicht wirklich.)", next: "start" }],
-    },
+    }),
   },
 
   anna: {
