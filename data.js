@@ -984,13 +984,18 @@ const DIALOGUES = {
   },
 
   johannes: {
-    start: {
-      text: "Johannes hängt auf dem Stumpf und starrt nachdenklich ins Leere. „Sag mal... muss man eigentlich schon beim Standesamt Geld geben? Oder hebt man sich das nicht lieber fürs große Fest auf?“",
-      choices: [
-        { label: "„Ich glaub, das hebt man sich fürs Fest auf.“", next: "relief" },
-        { label: "„Kannst du mir helfen?“", next: "hilfe" },
-        { label: "„Keine Ahnung, frag Fabian.“", end: true },
-      ],
+    start: (st) => {
+      const topics = [
+        { key: "johannes:relief", label: "„Ich glaub, das hebt man sich fürs Fest auf.“", next: "relief" },
+        { key: "johannes:hilfe", label: "„Kannst du mir helfen?“", next: "hilfe" },
+      ].filter((t) => !st.sawTopic(t.key));
+      return {
+        text: "Johannes hängt auf dem Stumpf und starrt nachdenklich ins Leere. „Sag mal... muss man eigentlich schon beim Standesamt Geld geben? Oder hebt man sich das nicht lieber fürs große Fest auf?“",
+        choices: [
+          ...topics.map((t) => ({ label: t.label, effect: `seen:${t.key}`, next: t.next })),
+          { label: "„Keine Ahnung, frag Fabian.“", end: true },
+        ],
+      };
     },
     relief: {
       text: "Johannes atmet sichtlich erleichtert aus. „Gott sei Dank. Dann spar ich mir das Kuvert für heute. Beim Fest hau ich dann richtig einen raus.“",
@@ -1041,14 +1046,19 @@ const DIALOGUES = {
   },
 
   alex: {
-    start: {
-      text: "Alex lehnt entspannt am Baum, Kapuze tief ins Gesicht gezogen. „Läuft bei dir? Ich hab hier nur nochmal die Rede fürs Festessen geübt.“",
-      choices: [
-        { label: "„Wow, du hast echt einen wohlgeformten Hals.“", next: "neck" },
-        { label: "„Cooler Hoodie.“", next: "hoodie" },
-        { label: "„Kannst du mir helfen?“", next: "hilfe" },
-        { label: "„Alles klar, bis später!“", end: true },
-      ],
+    start: (st) => {
+      const topics = [
+        { key: "alex:neck", label: "„Wow, du hast echt einen wohlgeformten Hals.“", next: "neck" },
+        { key: "alex:hoodie", label: "„Cooler Hoodie.“", next: "hoodie" },
+        { key: "alex:hilfe", label: "„Kannst du mir helfen?“", next: "hilfe" },
+      ].filter((t) => !st.sawTopic(t.key));
+      return {
+        text: "Alex lehnt entspannt am Baum, Kapuze tief ins Gesicht gezogen. „Läuft bei dir? Ich hab hier nur nochmal die Rede fürs Festessen geübt.“",
+        choices: [
+          ...topics.map((t) => ({ label: t.label, effect: `seen:${t.key}`, next: t.next })),
+          { label: "„Alles klar, bis später!“", end: true },
+        ],
+      };
     },
     neck: {
       text: "Alex' Augen leuchten unter der Kapuze auf. „Danke! ENDLICH bemerkt das mal jemand. Hier reden alle immer nur über den Hoodie...“",
@@ -1065,17 +1075,26 @@ const DIALOGUES = {
   },
 
   sonja: {
-    start: {
-      text: "Sonja sitzt inmitten ihres Gartens, ein Notizbuch auf den Knien, und beobachtet konzentriert eine Pflanze. „Ah, Besuch! Setz dich ruhig, wenn du magst. Ich werte gerade eine Beobachtungsreihe aus.“",
-      choices: [
-        { label: "„Worüber denkst du nach?“", next: "theorie" },
-        { label: "„Was pflanzt du denn?“", next: "garten" },
-        { label: "„Kannst du mir helfen?“", next: "hilfe" },
-        { label: "(sie in Ruhe lassen)", end: true },
-      ],
+    start: (st) => {
+      const topics = [
+        { key: "sonja:theorie", label: "„Worüber denkst du nach?“", next: "theorie" },
+        { key: "sonja:garten", label: "„Was pflanzt du denn?“", next: "garten" },
+        { key: "sonja:hilfe", label: "„Kannst du mir helfen?“", next: "hilfe" },
+      ].filter((t) => !st.sawTopic(t.key));
+      return {
+        text: "Sonja sitzt inmitten ihres Gartens, ein Notizbuch auf den Knien, und beobachtet konzentriert eine Pflanze. „Ah, Besuch! Setz dich ruhig, wenn du magst. Ich werte gerade eine Beobachtungsreihe aus.“",
+        choices: [
+          ...topics.map((t) => ({ label: t.label, effect: `seen:${t.key}`, next: t.next })),
+          { label: "(sie in Ruhe lassen)", end: true },
+        ],
+      };
     },
     theorie: {
-      text: "„Meine Hypothese, über Jahre empirisch bestätigt: Man hilft sich gegenseitig nicht aus Verpflichtung, sondern aus Befähigung – eine klare Korrelation zwischen Fähigkeit und Fürsorge. Besonders signifikant wird der Effekt, wenn eine Testperson regelmäßig alles verlegt, verschüttet oder falsch anpackt.“",
+      text: "„Meine Hypothese, über Jahre empirisch bestätigt: Man hilft sich gegenseitig nicht aus Verpflichtung, sondern aus Befähigung – eine klare Korrelation zwischen Fähigkeit und Fürsorge.“",
+      choices: [{ label: "„Und?“", next: "theorie2" }],
+    },
+    theorie2: {
+      text: "„Besonders signifikant wird der Effekt, wenn eine Testperson regelmäßig alles verlegt, verschüttet oder falsch anpackt.“",
       choices: [{ label: "„Klingt nach jemand Bestimmtem.“", next: "bruder" }],
     },
     bruder: {
@@ -1125,14 +1144,19 @@ const DIALOGUES = {
   },
 
   sandra: {
-    start: {
-      text: "Sandra strahlt über beide Ohren und hält stolz zwei kleine, verdächtig gleich aussehende Kästchen fest. „Na, schon aufgeregt? Ich pass hier auf die Ringe auf – sicherer geht's nicht!“",
-      choices: [
-        { label: "„Warum du und nicht Alex oder Fabian?“", next: "warum" },
-        { label: "„Hast du sonst noch was zu tun?“", next: "pralinen" },
-        { label: "„Kannst du mir helfen?“", next: "hilfe" },
-        { label: "(sie weiter grinsen lassen)", end: true },
-      ],
+    start: (st) => {
+      const topics = [
+        { key: "sandra:warum", label: "„Warum du und nicht Alex oder Fabian?“", next: "warum" },
+        { key: "sandra:pralinen", label: "„Hast du sonst noch was zu tun?“", next: "pralinen" },
+        { key: "sandra:hilfe", label: "„Kannst du mir helfen?“", next: "hilfe" },
+      ].filter((t) => !st.sawTopic(t.key));
+      return {
+        text: "Sandra strahlt über beide Ohren und hält stolz zwei kleine, verdächtig gleich aussehende Kästchen fest. „Na, schon aufgeregt? Ich pass hier auf die Ringe auf – sicherer geht's nicht!“",
+        choices: [
+          ...topics.map((t) => ({ label: t.label, effect: `seen:${t.key}`, next: t.next })),
+          { label: "(sie weiter grinsen lassen)", end: true },
+        ],
+      };
     },
     warum: {
       text: "Sandra lacht laut auf. „Ganz ehrlich? Claudia und ich haben uns das genau überlegt. Bei Alex und Fabian wären die Ringe jetzt vermutlich schon in einem Fluss, einem Vogelnest oder bei irgendeinem Faultier gelandet.“",
@@ -1149,13 +1173,18 @@ const DIALOGUES = {
   },
 
   claudia: {
-    start: {
-      text: "Claudia sitzt seelenruhig zwischen Girlanden und Blumenkränzen und bindet in aller Ruhe eine Schleife. „Oh, hallo! Schön, dich zu sehen. Ich wollte nur noch schnell die letzten Kränze aufhängen.“",
-      choices: [
-        { label: "„War es eigentlich eine gute Idee, Fabian die Einladungen zu überlassen?“", next: "gewohnt" },
-        { label: "„Freust du dich?“", next: "freude" },
-        { label: "(sie weitermachen lassen)", end: true },
-      ],
+    start: (st) => {
+      const topics = [
+        { key: "claudia:gewohnt", label: "„War es eigentlich eine gute Idee, Fabian die Einladungen zu überlassen?“", next: "gewohnt" },
+        { key: "claudia:freude", label: "„Freust du dich?“", next: "freude" },
+      ].filter((t) => !st.sawTopic(t.key));
+      return {
+        text: "Claudia sitzt seelenruhig zwischen Girlanden und Blumenkränzen und bindet in aller Ruhe eine Schleife. „Oh, hallo! Schön, dich zu sehen. Ich wollte nur noch schnell die letzten Kränze aufhängen.“",
+        choices: [
+          ...topics.map((t) => ({ label: t.label, effect: `seen:${t.key}`, next: t.next })),
+          { label: "(sie weitermachen lassen)", end: true },
+        ],
+      };
     },
     gewohnt: {
       text: "Claudia lacht leise und bindet seelenruhig weiter. „Ehrlich gesagt bin ich das gewöhnt. Bei Fabian ist immer irgendwas – aber am Ende klappt es doch noch. Meistens jedenfalls.“",
@@ -1208,10 +1237,13 @@ const DIALOGUES = {
         return { text: "Anna ist schon lange fort – hoffentlich ist die Post heil angekommen...", choices: [{ label: "(gehen)", end: true }] };
       }
       if (!st.has("einladungen")) {
+        const topics = [{ key: "anna:ausruestung", label: "„Was bräuchtest du denn eigentlich für den Job?“", next: "ausruestung" }].filter(
+          (t) => !st.sawTopic(t.key)
+        );
         return {
           text: "Anna hockt zittrig auf ihrem Ast und knabbert nervös an einer Feder. „Oh! Ein Besuch! Ich hoffe, du bringst keine Post – ich verliere doch sowieso alles...“",
           choices: [
-            { label: "„Was bräuchtest du denn eigentlich für den Job?“", next: "ausruestung" },
+            ...topics.map((t) => ({ label: t.label, effect: `seen:${t.key}`, next: t.next })),
             { label: "(sie weiter grübeln lassen)", end: true },
           ],
         };

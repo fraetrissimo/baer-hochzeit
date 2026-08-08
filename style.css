@@ -129,7 +129,7 @@ html,body{
 
 /* end card */
 #endcard{
-  position:absolute;
+  position:fixed;
   inset:0;
   z-index:10;
   background:rgba(5,3,8,.94);
@@ -215,7 +215,7 @@ html,body{
 
 /* intro slides */
 #intro{
-  position:absolute;
+  position:fixed;
   inset:0;
   z-index:10;
   background:rgba(5,3,8,.97);
@@ -226,6 +226,7 @@ html,body{
   gap:12px;
   padding:20px 16px;
   text-align:center;
+  overflow-y:auto;
 }
 #intro.hidden{ display:none; }
 #intro-skip-btn{
@@ -238,6 +239,7 @@ html,body{
   aspect-ratio:320/180;
   border:3px solid var(--border-dim);
   box-shadow:0 4px 0 #000;
+  flex-shrink:0;
 }
 #intro-text{
   font-size:10px;
@@ -249,7 +251,7 @@ html,body{
 
 /* name card */
 #namecard{
-  position:absolute;
+  position:fixed;
   inset:0;
   z-index:10;
   background:rgba(5,3,8,.97);
@@ -260,6 +262,7 @@ html,body{
   gap:14px;
   padding:20px;
   text-align:center;
+  overflow-y:auto;
 }
 #namecard.hidden{ display:none; }
 #namecard-text{
@@ -392,4 +395,11 @@ html,body{
   #titlebar h1{ font-size:11px; }
   #ui{ flex-direction:column; }
   #verbs{ width:100%; grid-template-columns:repeat(4,1fr); }
+}
+
+/* short/landscape screens: overlay art must shrink by available height, not width */
+@media (max-height:620px){
+  #intro, #namecard, #endcard{ padding-top:44px; padding-bottom:16px; gap:8px; }
+  .overlay-scene{ width:auto; height:34vh; max-width:95%; }
+  #intro-text, #namecard-text{ font-size:9px; line-height:1.6; }
 }

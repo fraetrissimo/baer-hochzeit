@@ -62,7 +62,14 @@ const state = {
   playerName: "",
   juliaUsed: [],
   juliaLastDestination: null,
+  usedTopics: [],
   won: false,
+  sawTopic(key) {
+    return this.usedTopics.includes(key);
+  },
+  markTopic(key) {
+    if (!this.sawTopic(key)) this.usedTopics.push(key);
+  },
   has(id) {
     return this.inventory.includes(id);
   },
@@ -408,6 +415,10 @@ function applyEffect(name) {
     if (!state.juliaUsed.includes(id)) state.juliaUsed.push(id);
     return;
   }
+  if (name.startsWith("seen:")) {
+    state.markTopic(name.slice(5));
+    return;
+  }
   switch (name) {
     case "get_wachs":
       state.add("wachs");
@@ -453,6 +464,7 @@ function restartGame() {
   state.selectedItem = null;
   state.juliaUsed = [];
   state.juliaLastDestination = null;
+  state.usedTopics = [];
   state.won = false;
   els.endcard.classList.add("hidden");
   els.dialogue.classList.add("hidden");
