@@ -820,6 +820,9 @@ const ROOMS = {
         name: "Deko-Tisch",
         x: 218, y: 95, w: 48, h: 55,
         look: "Ein kleiner Tisch mit einer Probe-Torte. Noch nicht die echte – aber schon zum Anbeißen.",
+        take: true,
+        item: "torte",
+        takeMsg: "Wenn schon niemand hinschaut... Du schneidest dir heimlich, still und leise ein Stück von der Probe-Torte ab und steckst es ein.",
       },
       {
         id: "sandra",
@@ -893,6 +896,7 @@ const ITEMS = {
   einladungen: { name: "Einladungen", icon: "💌", look: "Ein fertig gebündeltes Stapelchen Hochzeitseinladungen." },
   metallschrott: { name: "Haufen Metallschrott", icon: "🔩", look: "Ein Haufen Metallschrott, den ein Freiwilliger irgendwo liegen gelassen hat." },
   oel: { name: "Öl", icon: "🛢️", look: "Ein Fläschchen Öl. Funktioniert erstaunlich gut als Tintenersatz." },
+  torte: { name: "Stück Torte", icon: "🍰", look: "Ein Stück Probe-Torte, heimlich stibitzt. Riecht verdammt gut." },
 };
 
 const NEEDED_ITEMS = ["feder", "oel", "gaesteliste", "wachs"];

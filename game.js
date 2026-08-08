@@ -252,6 +252,15 @@ function doUse(hotspot) {
     return;
   }
 
+  // Sonderfall: Fabian heimlich mit der stibitzten Torte füttern
+  if (hotspot.id === "brummel" && state.selectedItem === "torte") {
+    state.remove("torte");
+    state.selectedItem = null;
+    caption("Kaum hältst du ihm das Stück Torte hin, reißt Fabian die Augen auf. „Du kennst mein Kryptonit!“ Weg ist es.");
+    renderInventory();
+    return;
+  }
+
   // Sonderfall: Gegenstände einzeln an Fabian übergeben
   if (hotspot.id === "brummel" && state.selectedItem && NEEDED_ITEMS.includes(state.selectedItem) && !state.given(state.selectedItem)) {
     const item = state.selectedItem;
