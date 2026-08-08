@@ -985,12 +985,16 @@ const DIALOGUES = {
 
   johannes: {
     start: (st) => {
-      const topics = [
+      const topicDefs = [
         { key: "johannes:relief", label: "„Ich glaub, das hebt man sich fürs Fest auf.“", next: "relief" },
         { key: "johannes:hilfe", label: "„Kannst du mir helfen?“", next: "hilfe" },
-      ].filter((t) => !st.sawTopic(t.key));
+      ];
+      const alreadyGreeted = topicDefs.some((t) => st.sawTopic(t.key));
+      const topics = topicDefs.filter((t) => !st.sawTopic(t.key));
       return {
-        text: "Johannes hängt auf dem Stumpf und starrt nachdenklich ins Leere. „Sag mal... muss man eigentlich schon beim Standesamt Geld geben? Oder hebt man sich das nicht lieber fürs große Fest auf?“",
+        text: alreadyGreeted
+          ? "Johannes blickt kurz von seinem Stumpf auf. „Na, was gibt's noch?“"
+          : "Johannes hängt auf dem Stumpf und starrt nachdenklich ins Leere. „Sag mal... muss man eigentlich schon beim Standesamt Geld geben? Oder hebt man sich das nicht lieber fürs große Fest auf?“",
         choices: [
           ...topics.map((t) => ({ label: t.label, effect: `seen:${t.key}`, next: t.next })),
           { label: "„Keine Ahnung, frag Fabian.“", end: true },
@@ -1009,12 +1013,16 @@ const DIALOGUES = {
 
   janos: {
     start: (st) => {
-      const topics = [
+      const topicDefs = [
         { key: "janos:explain", label: "„Und? Läuft's?“", next: "explain1" },
         { key: "janos:hilfe", label: "„Kannst du mir helfen?“", next: "hilfe" },
-      ].filter((t) => !st.sawTopic(t.key));
+      ];
+      const alreadyGreeted = topicDefs.some((t) => st.sawTopic(t.key));
+      const topics = topicDefs.filter((t) => !st.sawTopic(t.key));
       return {
-        text: "Janos hängt reglos unter dem Riesenpilz, ein zerknittertes Blatt Papier in der Pfote. „Ich wollte eigentlich nur ein Bett bauen...“",
+        text: alreadyGreeted
+          ? "Janos blinzelt träge, den Blick immer noch auf den Bauplan geheftet. „Was denn noch?“"
+          : "Janos hängt reglos unter dem Riesenpilz, ein zerknittertes Blatt Papier in der Pfote. „Ich wollte eigentlich nur ein Bett bauen...“",
         choices: [
           ...topics.map((t) => ({ label: t.label, effect: `seen:${t.key}`, next: t.next })),
           { label: "(ihn weiterhängen lassen)", end: true },
@@ -1052,13 +1060,17 @@ const DIALOGUES = {
 
   alex: {
     start: (st) => {
-      const topics = [
+      const topicDefs = [
         { key: "alex:neck", label: "„Wow, du hast echt einen wohlgeformten Hals.“", next: "neck" },
         { key: "alex:hoodie", label: "„Cooler Hoodie.“", next: "hoodie" },
         { key: "alex:hilfe", label: "„Kannst du mir helfen?“", next: "hilfe" },
-      ].filter((t) => !st.sawTopic(t.key));
+      ];
+      const alreadyGreeted = topicDefs.some((t) => st.sawTopic(t.key));
+      const topics = topicDefs.filter((t) => !st.sawTopic(t.key));
       return {
-        text: "Alex lehnt entspannt am Baum, Kapuze tief ins Gesicht gezogen. „Läuft bei dir? Ich hab hier nur nochmal die Rede fürs Festessen geübt.“",
+        text: alreadyGreeted
+          ? "Alex grinst unter der Kapuze hervor. „Und sonst so?“"
+          : "Alex lehnt entspannt am Baum, Kapuze tief ins Gesicht gezogen. „Läuft bei dir? Ich hab hier nur nochmal die Rede fürs Festessen geübt.“",
         choices: [
           ...topics.map((t) => ({ label: t.label, effect: `seen:${t.key}`, next: t.next })),
           { label: "„Alles klar, bis später!“", end: true },
@@ -1123,14 +1135,18 @@ const DIALOGUES = {
   stephan: {
     start: (st) => {
       const gotItem = st.has("metallschrott") || st.has("oel");
-      const topics = [
+      const topicDefs = [
         { key: "stephan:oktober", label: "„Es ist Oktober.“", next: "oktober" },
         !gotItem ? { key: "stephan:metallschrott_frage", label: "„Was ist das für ein Ding neben dir?“", next: "metallschrott_frage" } : null,
         { key: "stephan:hilfe", label: "„Kannst du mir helfen?“", next: "hilfe" },
-      ].filter((t) => t && !st.sawTopic(t.key));
+      ].filter(Boolean);
+      const alreadyGreeted = !gotItem && topicDefs.some((t) => st.sawTopic(t.key));
+      const topics = topicDefs.filter((t) => !st.sawTopic(t.key));
       return {
         text: gotItem
           ? "Stephan winkt entspannt vom Ufer. „Alles gut bei dir? Ich mache gleich noch Yoga.“"
+          : alreadyGreeted
+          ? "Stephan blinzelt träge in die Sonne. „Was gibt's noch?“"
           : "Stephan liegt lässig am Seeufer und starrt in die Wolken. „Sag mal... ist der zehnte Monat jetzt September, Oktober oder November? Komm da grad durcheinander.“",
         choices: [
           ...topics.map((t) => ({ label: t.label, effect: `seen:${t.key}`, next: t.next })),
@@ -1154,13 +1170,17 @@ const DIALOGUES = {
 
   sandra: {
     start: (st) => {
-      const topics = [
+      const topicDefs = [
         { key: "sandra:warum", label: "„Warum du und nicht Alex oder Fabian?“", next: "warum" },
         { key: "sandra:pralinen", label: "„Hast du sonst noch was zu tun?“", next: "pralinen" },
         { key: "sandra:hilfe", label: "„Kannst du mir helfen?“", next: "hilfe" },
-      ].filter((t) => !st.sawTopic(t.key));
+      ];
+      const alreadyGreeted = topicDefs.some((t) => st.sawTopic(t.key));
+      const topics = topicDefs.filter((t) => !st.sawTopic(t.key));
       return {
-        text: "Sandra strahlt über beide Ohren und hält stolz zwei kleine, verdächtig gleich aussehende Kästchen fest. „Na, schon aufgeregt? Ich pass hier auf die Ringe auf – sicherer geht's nicht!“",
+        text: alreadyGreeted
+          ? "Sandra hält die Kästchen weiter fest umklammert. „Na, noch was?“"
+          : "Sandra strahlt über beide Ohren und hält stolz zwei kleine, verdächtig gleich aussehende Kästchen fest. „Na, schon aufgeregt? Ich pass hier auf die Ringe auf – sicherer geht's nicht!“",
         choices: [
           ...topics.map((t) => ({ label: t.label, effect: `seen:${t.key}`, next: t.next })),
           { label: "(sie weiter grinsen lassen)", end: true },
@@ -1183,12 +1203,16 @@ const DIALOGUES = {
 
   claudia: {
     start: (st) => {
-      const topics = [
+      const topicDefs = [
         { key: "claudia:gewohnt", label: "„War es eigentlich eine gute Idee, Fabian die Einladungen zu überlassen?“", next: "gewohnt" },
         { key: "claudia:freude", label: "„Freust du dich?“", next: "freude" },
-      ].filter((t) => !st.sawTopic(t.key));
+      ];
+      const alreadyGreeted = topicDefs.some((t) => st.sawTopic(t.key));
+      const topics = topicDefs.filter((t) => !st.sawTopic(t.key));
       return {
-        text: "Claudia sitzt seelenruhig zwischen Girlanden und Blumenkränzen und bindet in aller Ruhe eine Schleife. „Oh, hallo! Schön, dich zu sehen. Ich wollte nur noch schnell die letzten Kränze aufhängen.“",
+        text: alreadyGreeted
+          ? "Claudia bindet seelenruhig weiter an ihrer Schleife. „Ja?“"
+          : "Claudia sitzt seelenruhig zwischen Girlanden und Blumenkränzen und bindet in aller Ruhe eine Schleife. „Oh, hallo! Schön, dich zu sehen. Ich wollte nur noch schnell die letzten Kränze aufhängen.“",
         choices: [
           ...topics.map((t) => ({ label: t.label, effect: `seen:${t.key}`, next: t.next })),
           { label: "(sie weitermachen lassen)", end: true },
@@ -1249,11 +1273,13 @@ const DIALOGUES = {
         return { text: "Anna ist schon lange fort – hoffentlich ist die Post heil angekommen...", choices: [{ label: "(gehen)", end: true }] };
       }
       if (!st.has("einladungen")) {
-        const topics = [{ key: "anna:ausruestung", label: "„Was bräuchtest du denn eigentlich für den Job?“", next: "ausruestung" }].filter(
-          (t) => !st.sawTopic(t.key)
-        );
+        const topicDefs = [{ key: "anna:ausruestung", label: "„Was bräuchtest du denn eigentlich für den Job?“", next: "ausruestung" }];
+        const alreadyGreeted = topicDefs.some((t) => st.sawTopic(t.key));
+        const topics = topicDefs.filter((t) => !st.sawTopic(t.key));
         return {
-          text: "Anna hockt zittrig auf ihrem Ast und knabbert nervös an einer Feder. „Oh! Ein Besuch! Ich hoffe, du bringst keine Post – ich verliere doch sowieso alles...“",
+          text: alreadyGreeted
+            ? "Anna knabbert weiter nervös an ihrer Feder. „J-ja?“"
+            : "Anna hockt zittrig auf ihrem Ast und knabbert nervös an einer Feder. „Oh! Ein Besuch! Ich hoffe, du bringst keine Post – ich verliere doch sowieso alles...“",
           choices: [
             ...topics.map((t) => ({ label: t.label, effect: `seen:${t.key}`, next: t.next })),
             { label: "(sie weiter grübeln lassen)", end: true },
