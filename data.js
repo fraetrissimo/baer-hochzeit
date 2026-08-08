@@ -922,7 +922,7 @@ const JULIA_OPENERS = [
 ];
 
 function juliaGruss(st) {
-  return st.playerName === "Jonas" ? "Kollegiale Grüße" : "Grüße";
+  return st.playerName.trim().toLowerCase() === "jonas" ? "Kollegiale Grüße" : "Grüße";
 }
 
 const JULIA_RUSHED = [
